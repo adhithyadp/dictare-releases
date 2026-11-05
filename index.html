@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Dictare — Speak Naturally. Type Perfectly. Free Forever on Your Device.
+    </title>
+    <meta
+      name="description"
+      content="Unlimited free local AI voice dictation for Windows, macOS, and Linux. Speak English, Hinglish, Tanglish, or 25+ languages and type clean, formatted text into any app."
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <style>
+      :root {
+        --bg: #0b0914;
+        --bg-elevated: #131022;
+        --bg-card: #19152b;
+        --bg-card-hover: #211c38;
+        --border: rgba(255, 255, 255, 0.09);
+        --border-strong: rgba(168, 130, 255, 0.35);
+        --text: #f6f4ff;
+        --text-muted: #a8a2c4;
+        --accent: #8b5cf6;
+        --accent-bright: #a78bfa;
+        --accent-glow: rgba(139, 92, 246, 0.32);
+        --emerald: #10b981;
+        --emerald-bg: rgba(16, 185, 129, 0.12);
+        --amber: #f59e0b;
+        --radius-lg: 18px;
+        --radius-md: 12px;
+        --radius-pill: 999px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter",
+          sans-serif;
+        line-height: 1.55;
+      }
+
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(
+            circle at 50% 0%,
+            rgba(139, 92, 246, 0.22) 0%,
+            transparent 55%
+          ),
+          var(--bg);
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Navbar */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        backdrop-filter: blur(14px);
+        background: rgba(11, 9, 20, 0.78);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-inner {
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #9333ea 0%, #6366f1 100%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px var(--accent-glow);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        font-size: 0.93rem;
+        color: var(--text-muted);
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 22px;
+        border-radius: var(--radius-pill);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          background 0.15s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+        color: #fff;
+        box-shadow: 0 8px 28px var(--accent-glow);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 34px rgba(139, 92, 246, 0.48);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--border-strong);
+      }
+
+      .btn-lg {
+        padding: 16px 32px;
+        font-size: 1.08rem;
+      }
+
+      /* Hero */
+      .hero {
+        padding: 72px 0 48px;
+        text-align: center;
+      }
+
+      .pill-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px;
+        border-radius: var(--radius-pill);
+        background: rgba(139, 92, 246, 0.13);
+        border: 1px solid var(--border-strong);
+        color: var(--accent-bright);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 24px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.4rem, 5.2vw, 4.1rem);
+        font-weight: 800;
+        letter-spacing: -0.035em;
+        line-height: 1.08;
+        max-width: 880px;
+        margin: 0 auto 22px;
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #c4b5fd 0%,
+          #818cf8 55%,
+          #34d399 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero p.lead {
+        font-size: clamp(1.06rem, 2vw, 1.26rem);
+        color: var(--text-muted);
+        max-width: 720px;
+        margin: 0 auto 34px;
+      }
+
+      .cta-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .os-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px;
+        font-size: 0.86rem;
+        color: var(--text-muted);
+        margin-top: 12px;
+      }
+
+      .os-links a {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .os-links a:hover {
+        color: var(--accent-bright);
+      }
+
+      /* Live Test Box */
+      .sandbox-card {
+        scroll-margin-top: 88px;
+        margin: 44px auto 0;
+        max-width: 820px;
+        background: var(--bg-card);
+        border: 1.5px solid var(--border-strong);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        text-align: left;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+
+      .sandbox-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .sandbox-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .pulse-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--emerald);
+        box-shadow: 0 0 12px var(--emerald);
+      }
+
+      .sample-phrase {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px dashed rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-md);
+        padding: 12px 16px;
+        font-size: 0.94rem;
+        color: var(--text-muted);
+        margin-bottom: 14px;
+      }
+
+      .sample-phrase strong {
+        color: var(--text);
+      }
+
+      .sandbox-textarea {
+        width: 100%;
+        min-height: 118px;
+        background: var(--bg);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        color: var(--text);
+        font-size: 1.02rem;
+        font-family: inherit;
+        resize: vertical;
+        outline: none;
+        transition: border-color 0.15s ease;
+      }
+
+      .sandbox-textarea:focus {
+        border-color: var(--accent-bright);
+      }
+
+      .sandbox-status {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .verified-badge {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: var(--radius-pill);
+        background: var(--emerald-bg);
+        color: #34d399;
+        font-weight: 600;
+      }
+
+      /* Section Layout */
+      section {
+        padding: 72px 0;
+      }
+
+      .section-head {
+        text-align: center;
+        max-width: 720px;
+        margin: 0 auto 48px;
+      }
+
+      .section-head h2 {
+        font-size: clamp(1.85rem, 3.6vw, 2.65rem);
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        margin-bottom: 12px;
+      }
+
+      .section-head p {
+        color: var(--text-muted);
+        font-size: 1.06rem;
+      }
+
+      /* Mode Grid */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        transition: border-color 0.2s ease;
+      }
+
+      .card:hover {
+        border-color: var(--border-strong);
+      }
+
+      .card-tag {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+
+      .tag-free {
+        background: var(--emerald-bg);
+        color: #34d399;
+      }
+
+      .tag-pro {
+        background: rgba(139, 92, 246, 0.2);
+        color: #c4b5fd;
+      }
+
+      .card h3 {
+        font-size: 1.28rem;
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+      }
+
+      .example-box {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px;
+        font-size: 0.9rem;
+      }
+
+      .example-row + .example-row {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+      }
+
+      .example-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      /* Comparison Table */
+      .table-wrap {
+        overflow-x: auto;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.95rem;
+      }
+
+      th {
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      .highlight-col {
+        background: rgba(139, 92, 246, 0.08);
+        font-weight: 600;
+      }
+
+      /* Pricing */
+      .pricing-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 36px;
+      }
+
+      .toggle-group {
+        display: inline-flex;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        padding: 4px;
+      }
+
+      .toggle-btn {
+        padding: 8px 16px;
+        border-radius: var(--radius-pill);
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.86rem;
+        cursor: pointer;
+      }
+
+      .toggle-btn.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      .price-card {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .price-card.featured {
+        border-color: var(--accent-bright);
+        box-shadow: 0 16px 48px rgba(139, 92, 246, 0.18);
+        position: relative;
+      }
+
+      .price-amount {
+        font-size: 2.8rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin: 14px 0 4px;
+      }
+
+      .price-amount span {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-muted);
+      }
+
+      .price-sub {
+        font-size: 0.86rem;
+        color: #34d399;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin: 0 0 28px;
+        flex: 1;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.94rem;
+        margin-bottom: 12px;
+        color: var(--text-muted);
+      }
+
+      .feature-list li strong {
+        color: var(--text);
+      }
+
+      .check {
+        color: #34d399;
+        font-weight: 800;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 40px 0;
+        margin-top: 48px;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .footer-links a:hover {
+        color: var(--text);
+      }
+
+      @media (max-width: 680px) {
+        .nav-links {
+          display: none;
+        }
+        .hero {
+          padding-top: 44px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <a href="#" class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="9" width="2.6" height="6" rx="1.3" fill="#fff" />
+              <rect
+                x="7.5"
+                y="5"
+                width="2.6"
+                height="14"
+                rx="1.3"
+                fill="#fff"
+              />
+              <rect x="12" y="3" width="2.6" height="18" rx="1.3" fill="#fff" />
+              <rect
+                x="16.5"
+                y="6"
+                width="2.6"
+                height="12"
+                rx="1.3"
+                fill="#fff"
+              />
+            </svg>
+          </span>
+          <span>Dictare</span>
+        </a>
+        <nav class="nav-links">
+          <a href="#test-sandbox">Live Test Pad</a>
+          <a href="#modes">Features &amp; Modes</a>
+          <a href="#compare">vs. Wispr Flow</a>
+          <a href="#pricing">Pricing</a>
+        </nav>
+        <a
+          id="nav-download-btn"
+          href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_x64-setup.exe"
+          class="btn btn-primary"
+        >
+          Download Free
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container">
+          <div class="pill-badge" id="hero-badge">
+            ⚡ 100% Free Local Voice Dictation · Zero Word Limits
+          </div>
+          <h1>
+            Speak Naturally.<br />
+            <span class="gradient-text" id="hero-gradient-headline">
+              Type Perfectly in Any App.
+            </span>
+          </h1>
+          <p class="lead" id="hero-lead">
+            Unlimited offline speech-to-text powered by Parakeet &amp; Whisper
+            on your own GPU/CPU — plus Dictare <strong>[PRO]</strong> modes to
+            turn Hinglish, Tanglish, or rambling thoughts into crisp English.
+          </p>
+
+          <div class="cta-group">
+            <a
+              id="primary-download-btn"
+              href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_x64-setup.exe"
+              class="btn btn-primary btn-lg"
+            >
+              <span id="primary-download-label">
+                ⬇️ Download Dictare for Windows (.exe) — Free
+              </span>
+            </a>
+            <a href="#test-sandbox" class="btn btn-secondary btn-lg">
+              🎤 Test Phase 1 Here
+            </a>
+          </div>
+
+          <div class="os-links">
+            <span>All platforms (v0.10.0):</span>
+            <a
+              href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_x64-setup.exe"
+            >
+              Windows (.exe)
+            </a>
+            <a
+              href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_x64_en-US.msi"
+            >
+              Windows (.msi)
+            </a>
+            <a
+              href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_aarch64.dmg"
+            >
+              macOS Apple Silicon (.dmg)
+            </a>
+            <a
+              href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_amd64.AppImage"
+            >
+              Linux (.AppImage)
+            </a>
+            <a
+              href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_amd64.deb"
+            >
+              Ubuntu/Debian (.deb)
+            </a>
+          </div>
+
+          <!-- Live Test Box -->
+          <div id="test-sandbox" class="sandbox-card">
+            <div class="sandbox-header">
+              <div class="sandbox-title">
+                <span class="pulse-dot"></span>
+                <span>Live Dictare Installation Test Pad</span>
+              </div>
+              <span style="font-size: 0.82rem; color: var(--text-muted)">
+                Press <strong>Ctrl + Space</strong> (Windows) or
+                <strong>Option + Space</strong> (Mac) and speak
+              </span>
+            </div>
+
+            <div class="sample-phrase">
+              Try dictating this exact sentence after installing Dictare:<br />
+              <strong>
+                "Testing Dictare Phase 1. New line. Everything is working."
+              </strong>
+            </div>
+
+            <textarea
+              id="dictation-input"
+              class="sandbox-textarea"
+              placeholder='Click here, hold Ctrl+Space, and speak: "Testing Dictare Phase 1. New line. Everything is working."'
+            ></textarea>
+
+            <div class="sandbox-status">
+              <span id="char-counter">
+                Waiting for dictation... (Try saying "Razorpay", "WhatsApp", or
+                "New line")
+              </span>
+              <span id="verified-badge" class="verified-badge">
+                ✓ Phase 1 Normalizer Verified! Multi-line dictation detected.
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modes Section -->
+      <section id="modes">
+        <div class="container">
+          <div class="section-head">
+            <h2 id="modes-heading">
+              Free Local Speed. Optional [PRO] Superpowers.
+            </h2>
+            <p id="modes-subheading">
+              Everything you need for fast everyday dictation is 100% free and
+              runs locally on your laptop. Upgrade to Pro only when you want AI
+              rewriting and instant translation.
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <span class="card-tag tag-free">FREE FOREVER · LOCAL</span>
+              <h3>⚡ Instant Offline Dictation + Smart Vocabulary</h3>
+              <p id="free-card-desc">
+                Runs NVIDIA Parakeet 0.6B &amp; Whisper locally on your GPU/CPU
+                with zero cloud latency, pause-bounded
+                <strong>"New line"</strong> / <strong>"New paragraph"</strong>
+                commands, and pre-loaded proper nouns.
+              </p>
+              <div class="example-box">
+                <div class="example-row">
+                  <span class="example-label">You Speak</span>
+                  "Message me on whats app after testing razor pay in bengaluru.
+                  New line. Everything is working."
+                </div>
+                <div class="example-row">
+                  <span class="example-label" style="color: #34d399">
+                    Dictare Free Output (&lt;1ms Normalizer)
+                  </span>
+                  "Message me on WhatsApp after testing Razorpay in
+                  Bengaluru.<br />Everything is working."
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <span class="card-tag tag-pro">DICTARE [PRO] MODE</span>
+              <h3 id="pro-card-title">
+                🌏 Speak Hinglish / Regional → Send Crisp English
+              </h3>
+              <p id="pro-card-desc">
+                Think naturally in mixed Hindi+English, Tamil+English,
+                Telugu+English, or casual speech — Dictare Pro types fluent,
+                professional English straight into Slack, Gmail, or Cursor.
+              </p>
+              <div class="example-box">
+                <div class="example-row">
+                  <span class="example-label">You Speak</span>
+                  <span id="pro-example-input">
+                    "Yaar kal client call hai at 4 PM, unko bolna hai ki
+                    deployment Friday tak ho jayega."
+                  </span>
+                </div>
+                <div class="example-row">
+                  <span class="example-label" style="color: #c4b5fd">
+                    Dictare [PRO] Output
+                  </span>
+                  <span id="pro-example-output">
+                    "Hey, we have a client call tomorrow at 4 PM. We need to let
+                    them know that the deployment will be completed by Friday."
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison Section -->
+      <section id="compare">
+        <div class="container">
+          <div class="section-head">
+            <h2>Why Switch to Dictare?</h2>
+            <p>Don't pay a monthly tax just to use your own microphone.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th class="highlight-col">Dictare</th>
+                  <th>Wispr Flow</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Free Dictation Limit</strong></td>
+                  <td class="highlight-col" style="color: #34d399">
+                    Unlimited Words Forever (Local)
+                  </td>
+                  <td>Capped at 2,000 words / week</td>
+                </tr>
+                <tr>
+                  <td><strong>Works 100% Offline</strong></td>
+                  <td class="highlight-col">
+                    ✓ Yes (GPU &amp; CPU accelerated)
+                  </td>
+                  <td>✕ No (Requires cloud connection)</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Indic-Transcribe-Flex (27 Indian Languages)</strong>
+                  </td>
+                  <td class="highlight-col" style="color: #34d399">
+                    ✓ Built-in 1.2B Canary Model (Bodhan AI &amp; AI4Bharat)
+                  </td>
+                  <td>Cloud-only ASR</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Pre-loaded Tech &amp; Regional Vocabulary</strong>
+                  </td>
+                  <td class="highlight-col" id="table-vocab-cell">
+                    ✓ Built-in (Razorpay, Zerodha, WhatsApp, Supabase,
+                    TypeScript)
+                  </td>
+                  <td>Manual setup required</td>
+                </tr>
+                <tr>
+                  <td><strong>Safe "New Line" / "New Paragraph"</strong></td>
+                  <td class="highlight-col">
+                    ✓ Pause-bounded Rust normalizer (&lt;1ms)
+                  </td>
+                  <td>Cloud LLM dependent</td>
+                </tr>
+                <tr>
+                  <td><strong>Pro Plan Price</strong></td>
+                  <td class="highlight-col" id="table-price-dictare">
+                    ₹149/mo (Annual) · ₹199/mo (Monthly)
+                  </td>
+                  <td id="table-price-wispr">
+                    ₹320/mo (Annual) · ₹400/mo (Monthly)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Section -->
+      <section id="pricing">
+        <div class="container">
+          <div class="section-head">
+            <h2>Simple, Honest Pricing</h2>
+            <p id="pricing-subhead">
+              Local dictation is 100% free forever because it runs on your own
+              computer. Pay only if you want cloud AI Polish without managing
+              API keys.
+            </p>
+          </div>
+
+          <div class="pricing-controls">
+            <div class="toggle-group" role="group" aria-label="Billing cycle">
+              <button
+                type="button"
+                id="bill-annual"
+                class="toggle-btn active"
+                onclick="setBilling('annual')"
+              >
+                Annual (Save 25%)
+              </button>
+              <button
+                type="button"
+                id="bill-monthly"
+                class="toggle-btn"
+                onclick="setBilling('monthly')"
+              >
+                Monthly
+              </button>
+            </div>
+
+            <div class="toggle-group" role="group" aria-label="Region currency">
+              <button
+                type="button"
+                id="region-in"
+                class="toggle-btn"
+                onclick="setRegion('IN')"
+              >
+                🇮🇳 India (₹)
+              </button>
+              <button
+                type="button"
+                id="region-global"
+                class="toggle-btn"
+                onclick="setRegion('GLOBAL')"
+              >
+                🌍 Global ($)
+              </button>
+            </div>
+          </div>
+
+          <div class="pricing-grid">
+            <!-- Free Card -->
+            <div class="price-card">
+              <span class="card-tag tag-free" style="align-self: flex-start">
+                FREE FOREVER
+              </span>
+              <h3>Dictare Free</h3>
+              <div class="price-amount" id="free-price-display">
+                ₹0 <span>/ forever</span>
+              </div>
+              <div class="price-sub">No account or credit card required</div>
+
+              <ul class="feature-list">
+                <li>
+                  <span class="check">✓</span>
+                  <span>
+                    <strong>Unlimited local voice dictation</strong> (Parakeet
+                    0.6B, <strong>Indic-Transcribe-Flex 1.2B</strong> for 27
+                    Indian languages, Whisper Turbo, 70+ models)
+                  </span>
+                </li>
+                <li>
+                  <span class="check">✓</span>
+                  <span>
+                    <strong>Pause-bounded Rust Normalizer</strong> ("New line"
+                    &amp; "New paragraph" in &lt;1ms)
+                  </span>
+                </li>
+                <li>
+                  <span class="check">✓</span>
+                  <span id="free-vocab-bullet">
+                    <strong>Pre-loaded India &amp; Tech Vocabulary</strong>
+                    (WhatsApp, Razorpay, Zerodha, Supabase, TypeScript)
+                  </span>
+                </li>
+                <li>
+                  <span class="check">✓</span>
+                  <span>
+                    <strong>Bring Your Own API Key</strong> (OpenAI, Groq,
+                    Anthropic, Ollama, or Apple Intelligence)
+                  </span>
+                </li>
+              </ul>
+
+              <a
+                id="pricing-download-btn"
+                href="https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0/Dictare_0.10.0_x64-setup.exe"
+                class="btn btn-secondary"
+              >
+                Download Free Now
+              </a>
+            </div>
+
+            <!-- Pro Card -->
+            <div class="price-card featured">
+              <span class="card-tag tag-pro" style="align-self: flex-start">
+                MOST POPULAR · ZERO SETUP
+              </span>
+              <h3>Dictare [PRO]</h3>
+              <div class="price-amount" id="pro-price-display">
+                ₹149 <span>/ month</span>
+              </div>
+              <div class="price-sub" id="pro-price-note">
+                Just ₹5/day · Billed ₹1,788/year (Over 50% less than Wispr Flow)
+              </div>
+
+              <ul class="feature-list">
+                <li>
+                  <span class="check">✓</span>
+                  <span
+                    >Everything in <strong>Dictare Free</strong>, plus:</span
+                  >
+                </li>
+                <li>
+                  <span class="check">✓</span>
+                  <span id="pro-hinglish-bullet">
+                    <strong
+                      >[PRO] Speak Hinglish / Tanglish → Clear English</strong
+                    >
+                    with zero API key setup
+                  </span>
+                </li>
+                <li>
+                  <span class="check">✓</span>
+                  <span>
+                    <strong>All 4 [PRO] Writing Modes</strong> (Professional
+                    Email &amp; Slack, Clean &amp; Direct, Bullet Points)
+                  </span>
+                </li>
+                <li>
+                  <span class="check">✓</span>
+                  <span id="pro-payment-bullet">
+                    <strong>1. Sign Up → 2. Pay → 3. Use Pro</strong> (Instant
+                    UPI &amp; Card via Dodo Payments · Zero license keys)
+                  </span>
+                </li>
+              </ul>
+
+              <a
+                id="pro-checkout-btn"
+                href="https://checkout.dodopayments.com/buy/dictare-pro"
+                target="_blank"
+                rel="noopener"
+                class="btn btn-primary"
+              >
+                Upgrade to Dictare [PRO] →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>
+          <strong>Dictare</strong> · Built on open-source software (<a
+            href="https://github.com/cjpais/Handy"
+            target="_blank"
+            rel="noopener"
+            style="text-decoration: underline"
+            >Handy</a
+          >, MIT License).
+        </div>
+        <div class="footer-links">
+          <a
+            href="https://github.com/adhithyadp/dictare-releases/releases/tag/v0.10.0"
+          >
+            All v0.10.0 Installers
+          </a>
+          <a
+            href="https://github.com/adhithyadp/dictare-releases/blob/main/THIRD_PARTY_NOTICES.md"
+          >
+            Third-Party Notices (MIT)
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const RELEASE_BASE =
+        "https://github.com/adhithyadp/dictare-releases/releases/download/v0.10.0";
+
+      const INSTALLERS = {
+        windows: {
+          url: `${RELEASE_BASE}/Dictare_0.10.0_x64-setup.exe`,
+          label: "⬇️ Download Dictare for Windows (.exe) — Free",
+        },
+        mac: {
+          url: `${RELEASE_BASE}/Dictare_0.10.0_aarch64.dmg`,
+          label: "⬇️ Download Dictare for macOS (.dmg) — Free",
+        },
+        linux: {
+          url: `${RELEASE_BASE}/Dictare_0.10.0_amd64.AppImage`,
+          label: "⬇️ Download Dictare for Linux (.AppImage) — Free",
+        },
+      };
+
+      let currentBilling = "annual";
+      let currentRegion = "IN";
+
+      function detectOS() {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes("mac")) return "mac";
+        if (ua.includes("linux") && !ua.includes("android")) return "linux";
+        return "windows";
+      }
+
+      function detectIndiaRegion() {
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+          if (
+            tz === "Asia/Kolkata" ||
+            tz === "Asia/Calcutta" ||
+            new Date().getTimezoneOffset() === -330
+          ) {
+            return true;
+          }
+          const langs = (navigator.languages || [navigator.language || ""])
+            .join(",")
+            .toLowerCase();
+          if (
+            langs.includes("-in") ||
+            /\b(hi|ta|te|ml|kn|mr|bn|gu|pa)\b/.test(langs)
+          ) {
+            return true;
+          }
+        } catch (_) {}
+        return false;
+      }
+
+      function applyOSDownloadLinks() {
+        const os = detectOS();
+        const chosen = INSTALLERS[os] || INSTALLERS.windows;
+        document.getElementById("primary-download-btn").href = chosen.url;
+        document.getElementById("primary-download-label").textContent =
+          chosen.label;
+        document.getElementById("nav-download-btn").href = chosen.url;
+        document.getElementById("pricing-download-btn").href = chosen.url;
+      }
+
+      function renderRegionAndPricing() {
+        const isIndia = currentRegion === "IN";
+        const isAnnual = currentBilling === "annual";
+
+        document
+          .getElementById("region-in")
+          .classList.toggle("active", isIndia);
+        document
+          .getElementById("region-global")
+          .classList.toggle("active", !isIndia);
+        document
+          .getElementById("bill-annual")
+          .classList.toggle("active", isAnnual);
+        document
+          .getElementById("bill-monthly")
+          .classList.toggle("active", !isAnnual);
+
+        if (isIndia) {
+          document.getElementById("hero-lead").innerHTML =
+            "Unlimited offline speech-to-text powered by Parakeet &amp; Whisper on your own GPU/CPU — plus Dictare <strong>[PRO]</strong> modes to turn Hinglish, Tanglish, or rambling thoughts into crisp English.";
+          document.getElementById("pro-card-title").textContent =
+            "🇮🇳 Speak Hinglish / Tanglish → Send Crisp English";
+          document.getElementById("pro-example-input").textContent =
+            '"Yaar kal client call hai at 4 PM, unko bolna hai ki deployment Friday tak ho jayega."';
+          document.getElementById("pro-example-output").textContent =
+            '"Hey, we have a client call tomorrow at 4 PM. We need to let them know that the deployment will be completed by Friday."';
+          document.getElementById("table-vocab-cell").textContent =
+            "✓ Built-in (Razorpay, Zerodha, Aadhaar, WhatsApp, Bengaluru, Supabase)";
+          document.getElementById("table-price-dictare").textContent =
+            "₹149/mo (Annual) · ₹199/mo (Monthly)";
+          document.getElementById("table-price-wispr").textContent =
+            "₹320/mo (Annual) · ₹400/mo (Monthly)";
+          document.getElementById("free-price-display").innerHTML =
+            "₹0 <span>/ forever</span>";
+          document.getElementById("free-vocab-bullet").innerHTML =
+            "<strong>Pre-loaded India &amp; Tech Vocabulary</strong> (WhatsApp, Razorpay, Zerodha, Aadhaar, Bengaluru, Supabase)";
+          document.getElementById("pro-hinglish-bullet").innerHTML =
+            "<strong>[PRO] Speak Hinglish / Regional → Clear English</strong> with zero API key setup";
+          document.getElementById("pro-payment-bullet").innerHTML =
+            "<strong>1. Sign Up → 2. Pay → 3. Use Pro</strong> (Instant UPI &amp; Card via Dodo Payments · Zero license keys)";
+
+          if (isAnnual) {
+            document.getElementById("pro-price-display").innerHTML =
+              "₹149 <span>/ month</span>";
+            document.getElementById("pro-price-note").textContent =
+              "Just ₹5/day · Billed ₹1,499/year (Over 50% less than Wispr Flow)";
+          } else {
+            document.getElementById("pro-price-display").innerHTML =
+              "₹199 <span>/ month</span>";
+            document.getElementById("pro-price-note").textContent =
+              "Billed monthly · Half the price of Wispr Flow (₹400/mo)";
+          }
+        } else {
+          document.getElementById("hero-lead").innerHTML =
+            "Unlimited offline speech-to-text powered by Parakeet &amp; Whisper on your own GPU/CPU — plus Dictare <strong>[PRO]</strong> modes to turn bilingual speech or rambling thoughts into crisp English.";
+          document.getElementById("pro-card-title").textContent =
+            "🌍 Speak Any Language or Ramble → Send Crisp English";
+          document.getElementById("pro-example-input").textContent =
+            '"Um hey team we need to push the release to Friday at 4 PM because the database migration is still running."';
+          document.getElementById("pro-example-output").textContent =
+            '"Hi team, we are moving the release to Friday at 4 PM while the database migration finishes."';
+          document.getElementById("table-vocab-cell").textContent =
+            "✓ Built-in (WhatsApp, LinkedIn, Supabase, TypeScript, PostgreSQL, ChatGPT)";
+          document.getElementById("table-price-dictare").textContent =
+            "$4.99/mo (Annual) · $6.99/mo (Monthly)";
+          document.getElementById("table-price-wispr").textContent =
+            "$12/mo (Annual) · $15/mo (Monthly)";
+          document.getElementById("free-price-display").innerHTML =
+            "$0 <span>/ forever</span>";
+          document.getElementById("free-vocab-bullet").innerHTML =
+            "<strong>Pre-loaded Tech &amp; Work Vocabulary</strong> (WhatsApp, LinkedIn, Supabase, TypeScript, PostgreSQL, ChatGPT)";
+          document.getElementById("pro-hinglish-bullet").innerHTML =
+            "<strong>[PRO] Multilingual &amp; Bilingual → Clear English</strong> with zero API key setup";
+          document.getElementById("pro-payment-bullet").innerHTML =
+            "<strong>1. Sign Up → 2. Pay → 3. Use Pro</strong> (Instant checkout via Dodo Payments · Zero license keys)";
+
+          if (isAnnual) {
+            document.getElementById("pro-price-display").innerHTML =
+              "$4.99 <span>/ month</span>";
+            document.getElementById("pro-price-note").textContent =
+              "Billed $39/year · Over 65% cheaper than Wispr Flow ($12/mo)";
+          } else {
+            document.getElementById("pro-price-display").innerHTML =
+              "$6.99 <span>/ month</span>";
+            document.getElementById("pro-price-note").textContent =
+              "Billed monthly · Less than half of Wispr Flow ($15/mo)";
+          }
+        }
+      }
+
+      function setBilling(mode) {
+        currentBilling = mode;
+        renderRegionAndPricing();
+      }
+
+      function setRegion(region) {
+        currentRegion = region;
+        renderRegionAndPricing();
+      }
+
+      // Live Dictation Sandbox Verification
+      const textarea = document.getElementById("dictation-input");
+      const counter = document.getElementById("char-counter");
+      const badge = document.getElementById("verified-badge");
+
+      textarea.addEventListener("input", () => {
+        const val = textarea.value;
+        const lines = val.split("\n").length;
+        counter.textContent = `${val.length} chars · ${lines} line(s)`;
+        if (val.includes("\n") && val.trim().length > 5) {
+          badge.style.display = "inline-flex";
+        } else {
+          badge.style.display = "none";
+        }
+      });
+
+      // Initialize on load
+      applyOSDownloadLinks();
+      currentRegion = detectIndiaRegion() ? "IN" : "GLOBAL";
+      renderRegionAndPricing();
+    </script>
+  </body>
+</html>
